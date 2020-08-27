@@ -23,4 +23,4 @@ def build_features_roche(input_file, output_file):
     df["IsAlone"] = 0
     df.loc[df["FamilySize"] == 1, "IsAlone"] = 1
 
-    return df.to_csv(output_file, index = False)    
+    df.to_csv(output_file, index = False)    

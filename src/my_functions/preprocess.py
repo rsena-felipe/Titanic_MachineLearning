@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def delete_columns_na(input_file, output_file, delete_columns, drop_na = True):
+def preprocess_roche(input_file, output_file, delete_columns, drop_na = True):
     """
     Function to preprocess a raw dataframe. It can delete one or more columns and 
     drops NA values.
@@ -24,6 +24,6 @@ def delete_columns_na(input_file, output_file, delete_columns, drop_na = True):
     else:
         pass
     
-    return data.to_csv(output_file, index=False)
+    data.to_csv(output_file, index=False)
 
     
