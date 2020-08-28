@@ -2,8 +2,8 @@ import pandas as pd
 
 def build_features_roche(input_file, output_file):
     """
-    Change values of the column Sex with male = 0 and female = 1.
-    Change values of the column Embarked with Southampton = 1, Cherbourg = 2 and Queenstown = 3.
+    Change values of the column Sex male = 0 and female = 1.
+    Change values of the column Embarked Southampton = 1, Cherbourg = 2 and Queenstown = 3.
     Creates a FamilySize column that is the sum of the SibSp and Parch column.
     
     Arguments:
@@ -13,14 +13,14 @@ def build_features_roche(input_file, output_file):
     Returns:
     A .csv of the processed dataframe in the specified location. 
     """
-    df = pd.read_csv(input_file)
 
-    df["Sex"].replace({"male": 0, "female": 1}, inplace=True)
-    df["Embarked"].replace({"Southampton": 1, "Cherbourg": 2, "Queenstown": 3}, inplace=True)
+    dtypes = {"Pclass":"category", "Sex":"category", "Embarked":"category"} # Establishing the category data so we can create dummy variables later
+    df = pd.read_csv(input_file, dtype = dtypes)
+
+    df = pd.get_dummies(df) 
   
-    df["FamilySize"] = df["SibSp"] + df["Parch"] + 1 # It sums the number of Sibling / Spouses (df["SibSp"]) and the number of Parents / Children (df["Parch"]) 
+    df["FamilySize"] = df["SibSp"] + df["Parch"] # It sums the number of Sibling / Spouses (df["SibSp"]) and the number of Parents / Children (df["Parch"]) 
 
-    df["IsAlone"] = 0
-    df.loc[df["FamilySize"] == 1, "IsAlone"] = 1
+    df['IsAlone'] = df["FamilySize"].apply(lambda x: 0 if x == 0 else 1) # Check if he is alone or not
 
     df.to_csv(output_file, index = False)    

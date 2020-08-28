@@ -1,9 +1,9 @@
 import pandas as pd
 
 
-def preprocess_roche(input_file, output_file, delete_columns, drop_na = True):
+def preprocess_roche(input_file, output_file, delete_columns = ["Name", "Ticket", "Cabin"], drop_na = True):
     """
-    Function to preprocess a raw dataframe. It can delete one or more columns and 
+    Preprocess a raw dataframe. It can delete one or more columns and 
     drops NA values.
 
     Arguments:
