@@ -1,7 +1,7 @@
 import my_functions
 import pandas as pd
 import seaborn as sns
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, balanced_accuracy_score
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, balanced_accuracy_score, roc_curve, auc
 import matplotlib.pyplot as plt
 
 def make_predictions(input_file, model, index_column = "PassengerId", target_column = "Survived"):
@@ -15,7 +15,7 @@ def make_predictions(input_file, model, index_column = "PassengerId", target_col
     target_column -- Target column of the dataset 
 
     Returns:
-    df -- A dataframe with three columns index, predictions and the true label
+    df -- Pandas Dataframe with three columns index, predictions and the true label
     """
     df = pd.read_csv(input_file).set_index(index_column)
     df.rename(columns = {"Survived":"True_Label"}, inplace = True)
@@ -27,7 +27,9 @@ def make_predictions(input_file, model, index_column = "PassengerId", target_col
 
     df = pd.concat([y_pred, y_true], axis=1)
 
-    df = df.replace({0: 'die', 1: 'live'})
+    #df = df.replace({0: 'die', 1: 'live'})
+    df["True_Label"] = df["True_Label"].apply(lambda x: 'die' if x == 0 else 'live')
+    df["Prediction"] = df["Prediction"].apply(lambda x: 'die' if x <= 0.5 else 'live') #  It is set like this so it works for models that return probabilities, 0.5 serves as a threshold
 
     return df
 
@@ -55,6 +57,25 @@ def save_predictions(train_file, val_file, output_file, model, index_column = "P
     df.to_csv(output_file)
 
 # Metrics Plots
+
+def plot_roc_curve(model, X, y, title = "Receiver Operating Characteristic"):
+
+    probs = model.predict_proba(X)
+    preds = probs[:,1]
+    fpr, tpr, threshold = roc_curve(y, preds) # calculate the fpr and tpr for all thresholds of the classification
+    roc_auc = auc(fpr, tpr)
+
+    # Graph
+    plt.title(title)
+    plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+    plt.legend(loc = 'lower right')
+    plt.plot([0, 1], [0, 1],'r--')
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
+
 
 def plot_confusion_matrix(input_file, split):    
     
@@ -98,7 +119,6 @@ def plot_classification_report(input_file, split):
     # Customize heatmap (Classification Report)
     sns.set(font_scale = 1.3)
     rdgn = sns.diverging_palette(h_neg=10, h_pos=130, s=80, l=62, sep=3, as_cmap=True)
-    
     ax=sns.heatmap(report, cmap=rdgn, annot=True, annot_kws={"size": 14}, cbar=True, fmt='.3g', cbar_kws={'label':'%'}, center=90, vmin=0, vmax=100)
     ax.xaxis.tick_top()
     for t in ax.texts: t.set_text(t.get_text() + " %") #Put percentage in confusion matrix
@@ -123,19 +143,3 @@ def print_accuracies(input_file):
         print("The " + str(split) + " accuracy is: ", round(accuracy_score(df_intermediate.True_Label, df_intermediate.Prediction)*100,2), "%")
         print("The " + str(split) + " balanced accuracy is: ", round(balanced_accuracy_score(df_intermediate.True_Label, df_intermediate.Prediction)*100,2), "%")
         print()
-
-    # # Print accuracy Training
-    # df = pd.read_csv(input_file)
-    # df_train = df[df['split'] == 'training']
-
-    # print("The training accuracy is: ", round(accuracy_score(df_train.True_Label, df_train.Prediction)*100,2), "%")
-    # print("The training balanced accuracy is: ", round(balanced_accuracy_score(df_train.True_Label, df_train.Prediction)*100,2), "%")
-
-    # print() 
-
-    # # Print accuracy Validation
-    # df = pd.read_csv(input_file)
-    # df_validation = df[df['split'] == 'validation']
-
-    # print("The validation accuracy is: ", round(accuracy_score(df_validation.True_Label, df_validation.Prediction)*100,2), "%")
-    # print("The validation balanced accuracy is: ", round(balanced_accuracy_score(df_validation.True_Label, df_validation.Prediction)*100,2), "%")

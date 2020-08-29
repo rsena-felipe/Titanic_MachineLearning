@@ -19,8 +19,8 @@ def build_features_roche(input_file, output_file):
 
     df = pd.get_dummies(df) 
   
-    df["FamilySize"] = df["SibSp"] + df["Parch"] # It sums the number of Sibling / Spouses (df["SibSp"]) and the number of Parents / Children (df["Parch"]) 
+    df["FamilySize"] = df["SibSp"] + df["Parch"] # It sums the number of Sibling/Spouses (df["SibSp"]) and the number of Parents/Children (df["Parch"]) 
 
-    df['IsAlone'] = df["FamilySize"].apply(lambda x: 0 if x == 0 else 1) # Check if he is alone or not
+    df['IsAlone'] = df["FamilySize"].apply(lambda x: 0 if x == 0 else 1) # Check if someone is alone or not
 
     df.to_csv(output_file, index = False)       

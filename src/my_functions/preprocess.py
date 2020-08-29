@@ -1,14 +1,13 @@
 import pandas as pd
 
-
 def preprocess_roche(input_file, output_file, delete_columns = ["Name", "Ticket", "Cabin"], drop_na = True):
     """
     Preprocess a raw dataframe. It can delete one or more columns and 
     drops NA values.
 
     Arguments:
-    input_file -- String Path to the csv file of the titanic dataset (The csv separator should be ";").
-    output_file -- String Path where the new csv of the new process data is going to be saved.
+    input_file (str) -- Path to the csv file of the titanic dataset (The csv separator should be ";").
+    output_file (str) -- Path where the new csv of the new process data is going to be saved.
     delete_columns -- List of colums to delete of the dataframe.
     drop_na -- Set True to drop all NA values.
 
@@ -17,6 +16,7 @@ def preprocess_roche(input_file, output_file, delete_columns = ["Name", "Ticket"
     """
 
     data = pd.read_csv(input_file, sep = ";")
+    
     data.drop(delete_columns, axis = 1, inplace=True) 
     
     if drop_na == True:
