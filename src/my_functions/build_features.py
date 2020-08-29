@@ -23,4 +23,4 @@ def build_features_roche(input_file, output_file):
 
     df['IsAlone'] = df["FamilySize"].apply(lambda x: 0 if x == 0 else 1) # Check if he is alone or not
 
-    df.to_csv(output_file, index = False)    
+    df.to_csv(output_file, index = False)       
