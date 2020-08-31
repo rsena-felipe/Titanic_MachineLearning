@@ -55,7 +55,7 @@ def build_features_roche(input_file, output_file):
 
     df.to_csv(output_file, index = False)       
 
-def build_features_raul(input_file, output_file, split, sep=";"):
+def build_features_raul(train_file, val_file, output_train, output_validation, sep=";"):
     """
     Formats the titanic dataset as follows:
 
@@ -76,9 +76,9 @@ def build_features_raul(input_file, output_file, split, sep=";"):
     3. Embarked(2): Drop NA's.
     
     Arguments:
-    input_file (str) -- Path to the csv file already preprocessed.
+    train_file (str) -- Path to the csv file  of raw training data.
+    val_file (str) -- Path to the csv file  of raw validation data.
     output_file (str) -- Path to the pickle where the new process data is going to be saved.
-    split (str) -- The file is training or validation dataset.
     sep (str) -- How the csv is separated.
 
     Returns:
@@ -88,15 +88,20 @@ def build_features_raul(input_file, output_file, split, sep=";"):
     # Set data types (PassengerId as string because of index duplicates)
     dtype = {"PassengerId":"object"} 
     
-    #, "Pclass":"category", "Sex":"category", "Embarked":"category"
-
     # Read csv
-    df = pd.read_csv(input_file, sep=sep, dtype=dtype)
+    data_train = pd.read_csv(train_file, sep=sep, dtype=dtype) # Training Data
+    data_val = pd.read_csv(val_file, sep=sep, dtype=dtype) # Validation Data
+    
+    # Create a non duplicated index
+    data_train["PassengerId"] = data_train["PassengerId"] + "-training" 
+    data_val["PassengerId"] = data_val["PassengerId"] + "-validation"
 
-    # Create Index (Not duplicated)
-    df["PassengerId"] = df["PassengerId"] + "-" + str(split)
-    df.set_index("PassengerId", inplace = True)
-
+    data_train.set_index("PassengerId", inplace=True)
+    data_val.set_index("PassengerId", inplace=True)
+    
+    # Create full dataframe
+    df = data_train.append(data_val)
+    
     # Drop Cabin Column
     df.drop(["Cabin"], axis = 1, inplace=True) 
 
@@ -116,7 +121,7 @@ def build_features_raul(input_file, output_file, split, sep=";"):
     # Fill NA values of Age with median of Pclass, Sex
     df['Age'] = df.groupby(['Sex', 'Pclass'])['Age'].apply(lambda x: x.fillna(x.median()))
     
-    # Creates Family size descriptor from SibSp and Parch and this is going to be as a category
+    # Creates Family size descriptor from SibSp and Parch 
     df["Fsize"] = df["SibSp"] + df["Parch"] + 1 
 
     # Creates Type of Family column based on family size
@@ -140,11 +145,26 @@ def build_features_raul(input_file, output_file, split, sep=";"):
     # Booleans
     df["Survived"] = df["Survived"].astype("bool")
     df["Is_Married"] = df["Is_Married"].astype("bool")
-    df["Fsize"] = df["Fsize"].astype("bool")
 
     # Format Dataframe to get dummies (columns to be dummies need to be formated as category)
     df = pd.get_dummies(df)
 
-    # Save as Pickle to conserve the data types
-    df.to_pickle(output_file)
+    # Create the Split column to filter later
+    df.reset_index(inplace=True)
+    df["Split"] = df['PassengerId'].str.split('-', expand=True)[1]
 
+    # Separates dataframes
+    data_train = df[ df["Split"] == "training" ]
+    data_val = df[ df["Split"] == "validation" ]
+
+    # Drop the Split Column
+    data_train.drop(["Split"], axis = 1, inplace=True) 
+    data_val.drop(["Split"], axis = 1, inplace=True)
+
+    # Set Index Passenger Id
+    data_train.set_index("PassengerId", inplace=True)
+    data_val.set_index("PassengerId", inplace=True)
+
+    # # Save as Pickle to conserve the data types
+    data_train.to_pickle(output_train)
+    data_val.to_pickle(output_validation)

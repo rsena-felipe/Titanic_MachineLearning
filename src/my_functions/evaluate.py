@@ -1,30 +1,68 @@
 import my_functions
 import pandas as pd
 import seaborn as sns
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, balanced_accuracy_score, roc_curve, auc
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, balanced_accuracy_score, roc_curve, auc, f1_score
 import matplotlib.pyplot as plt
 
-def make_predictions(input_file, model, index_column = "PassengerId", target_column = "Survived"):
+def calculate_f1score(input_file):
+    """
+    Compute F1 weighted for training and validation
+
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split
+
+    Returns:
+    f1_train (float) -- f1 weighted of training 
+    f1_val (float) -- f1 weighted of validation
+    """
+
+    df = pd.read_csv(input_file)
+    df_train = df[ df["split"] == "training" ]
+    df_val = df[ df["split"] == "validation" ]
+
+    # Compute F1 Weighted Training
+    y_pred = df_train["Prediction"]
+    y_true = df_train["True_Label"]
+    f1_train = f1_score(y_true, y_pred, average = "weighted")
+
+    # Compute F1 Weighted Validation
+    y_pred = df_val["Prediction"]
+    y_true = df_val["True_Label"]
+    f1_val = f1_score(y_true, y_pred, average = "weighted")
+
+    return f1_train, f1_val
+
+
+
+
+
+def make_predictions(input_file, model, format_type, index_column = "PassengerId", target_column = "Survived"):
     """
     Make predictions using a sklearn model and put the true label in the same df
 
     Arguments:
     input_file (str) -- Path to .csv that has the features of the previously trained model
     model -- Sklearn model previously trained
+    format_type (str) -- Format type of the save data (csv or pickle)
     index_column -- Index column of the dataset
     target_column -- Target column of the dataset 
 
     Returns:
     df -- Pandas Dataframe with three columns index, predictions and the true label
     """
-    df = pd.read_csv(input_file).set_index(index_column)
-    df.rename(columns = {"Survived":"True_Label"}, inplace = True)
+    # Read the data
+    if format_type == "csv":
+        df = pd.read_csv(input_file).set_index(index_column)
+    elif format_type == "pickle":
+        df = pd.read_pickle(input_file)  
 
-    X, _ = my_functions.create_features_target(input_file, target_column = target_column, index_column = index_column)
+    df.rename(columns = {"Survived":"True_Label"}, inplace = True) # To have a more meaningful name    
 
-    y_pred = pd.DataFrame(model.predict(X), index=df.index, columns = ["Prediction"])
+    X, _ = my_functions.create_features_target(input_file, target_column = target_column, index_column = index_column, format_type = format_type)
+
     y_true = df["True_Label"]
-
+    y_pred = pd.DataFrame(model.predict(X), index=df.index, columns = ["Prediction"])
+    
     df = pd.concat([y_pred, y_true], axis=1)
 
     #df = df.replace({0: 'die', 1: 'live'})
@@ -33,27 +71,27 @@ def make_predictions(input_file, model, index_column = "PassengerId", target_col
 
     return df
 
-def save_predictions(train_file, val_file, output_file, model, index_column = "PassengerId", target_column = "Survived"):
+def save_predictions(train_file, val_file, output_file, model, format_type, index_column = "PassengerId", target_column = "Survived"):
     """
     Make predictions on the train and validation data and saves it to a .csv
 
     Arguments:
-    train_file (str) -- Path to .csv that has the features of the previously trained model
-    val_file (str) -- Path to .csv that has the features of the validation data
+    train_file (str) -- Path to .csv that has the features 
+    val_file (str) -- Path to .csv that has the features 
     output_file (str) -- Path to .csv where the predictions are going to be saved
     index_column -- Index column of the dataset
     target_column -- Target column of the dataset 
     """
 
     # Make predictions for training
-    df_train = make_predictions(train_file, model, index_column, target_column)
+    df_train = make_predictions(train_file, model, format_type, index_column, target_column)
     df_train["split"] = "training"
 
     # Make predictions for validation
-    df_val = make_predictions(val_file, model, index_column, target_column)
+    df_val = make_predictions(val_file, model, format_type, index_column, target_column)
     df_val["split"] = "validation"
     
-    df = df_train.append(df_val)
+    df = df_train.append(df_val) 
     df.to_csv(output_file)
 
 # Metrics Plots
@@ -113,7 +151,7 @@ def plot_classification_report(input_file, split):
     df = df[df['split'] == split]
 
     report = pd.DataFrame(classification_report(df.True_Label, df.Prediction, digits=3, output_dict=True)).transpose()
-    report = report.loc[:, ["precision", "recall", "f1-score"]].drop('accuracy')
+    report = report.loc[:, ["precision", "recall", "f1-score"]].drop(['accuracy', "macro avg"])
     report = report*100 # Multiply by 100 so te percentage is 99.7% instead of 0.997%
     
     # Customize heatmap (Classification Report)
@@ -121,7 +159,8 @@ def plot_classification_report(input_file, split):
     rdgn = sns.diverging_palette(h_neg=10, h_pos=130, s=80, l=62, sep=3, as_cmap=True)
     ax=sns.heatmap(report, cmap=rdgn, annot=True, annot_kws={"size": 14}, cbar=True, fmt='.3g', cbar_kws={'label':'%'}, center=90, vmin=0, vmax=100)
     ax.xaxis.tick_top()
-    for t in ax.texts: t.set_text(t.get_text() + " %") #Put percentage in confusion matrix
+    for t in ax.texts: t.set_text(t.get_text() + " %") #Put percentage 
+    plt.yticks(rotation = 0)
 
 def plot_classification_reports(input_file):
 
