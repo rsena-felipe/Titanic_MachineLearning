@@ -53,4 +53,4 @@ I create a package of functions that I will reuse in scripts, notebooks, etc. Wi
 * prediction_api contains code to share an SVC model via API
 * src contains the package my_functions and the unit tests.
 
-Also, feel free to contact me at raulfelipe.sena@gmail.com in case of any doubts.
+Feel free to contact me at raulfelipe.sena@gmail.com in case of any doubts.
