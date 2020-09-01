@@ -21,6 +21,15 @@ def extract_ticket_prefix(df_column):
     return Ticket_prefix
 
 def map_fsize(family_size):
+    """
+    Categorize integer base on size (1 = single, 2 = small, 3 = medium, 4 = large)
+
+    Arguments:
+    family_size (int) -- Integer  
+
+    Returns:
+    string base on condition
+    """
     if family_size == 1:
         return "single"
     elif family_size == 2:

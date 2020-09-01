@@ -15,7 +15,7 @@ def calculate_f1score(input_file):
     f1_train (float) -- f1 weighted of training 
     f1_val (float) -- f1 weighted of validation
     """
-
+    # Read data and splits into training and vallidation
     df = pd.read_csv(input_file)
     df_train = df[ df["split"] == "training" ]
     df_val = df[ df["split"] == "validation" ]
@@ -39,7 +39,7 @@ def calculate_satisfying_metric(input_file):
     Arguments:
     input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split
     """
-
+    # Read data and splits into training and vallidation
     df = pd.read_csv(input_file)
     df_train = df[ df["split"] == "training" ]
     df_val = df[ df["split"] == "validation" ]
@@ -87,14 +87,16 @@ def make_predictions(input_file, model, format_type, index_column = "PassengerId
 
     df.rename(columns = {"Survived":"True_Label"}, inplace = True) # To have a more meaningful name    
 
+    # Create X (train values with features already computed)
     X, _ = my_functions.create_features_target(input_file, target_column = target_column, index_column = index_column, format_type = format_type)
 
+    # Make predictions
     y_true = df["True_Label"]
     y_pred = pd.DataFrame(model.predict(X), index=df.index, columns = ["Prediction"])
     
     df = pd.concat([y_pred, y_true], axis=1)
 
-    #df = df.replace({0: 'die', 1: 'live'})
+    # Label data into live and die to have a more meaningful name
     df["True_Label"] = df["True_Label"].apply(lambda x: 'die' if x == 0 else 'live')
     df["Prediction"] = df["Prediction"].apply(lambda x: 'die' if x <= 0.5 else 'live') #  It is set like this so it works for models that return probabilities, 0.5 serves as a threshold
 
@@ -126,6 +128,18 @@ def save_predictions(train_file, val_file, output_file, model, format_type, inde
 # Metrics Plots
 
 def plot_roc_curve(model, X, y, title = "Receiver Operating Characteristic"):
+    """
+    Plot ROC curve
+
+    Arguments:
+    model -- Sklearn model already train
+    X -- Data to predict on. The features has to be the same with which the model was trained on
+    y -- target value of the X data
+    title (str) -- title of the new plot
+
+    Returns:
+    matplotlib ROC curve
+    """    
 
     probs = model.predict_proba(X)
     preds = probs[:,1]
@@ -144,7 +158,16 @@ def plot_roc_curve(model, X, y, title = "Receiver Operating Characteristic"):
     plt.show()
 
 
-def plot_confusion_matrix(input_file, split):    
+def plot_confusion_matrix(input_file, split):
+    """
+    Plot Confusion Matrix
+
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split 
+    split (str) -- training or validation
+    Returns:
+    Confusion Matrix matplotlib plot
+    """      
     
     df = pd.read_csv(input_file)
     df = df[df['split'] == split]
@@ -165,6 +188,15 @@ def plot_confusion_matrix(input_file, split):
     plt.xticks(rotation=0)
 
 def plot_confusion_matrices(input_file):
+    """
+    Plot Confusion Matrices of training and validation set
+
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split 
+    
+    Returns:
+    Confusion Matrix matplotlib plot
+    """      
     
     plt.rcParams['figure.figsize'] = [18, 5]
     plt.subplot(1,2,1)
@@ -175,12 +207,22 @@ def plot_confusion_matrices(input_file):
     plt.title("Matrix Validation")
 
 def plot_classification_report(input_file, split):
+    """
+    Plot Classification Report of sklearn
+
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split 
+    split (str) -- training or validation
+    Returns:
+    Classification Report plot
+    """        
 
     df = pd.read_csv(input_file)
     df = df[df['split'] == split]
 
+    # Compute sklearn Classification Report and saves it in a pandas dataframe
     report = pd.DataFrame(classification_report(df.True_Label, df.Prediction, digits=3, output_dict=True)).transpose()
-    report = report.loc[:, ["precision", "recall", "f1-score"]].drop(['accuracy', "macro avg"])
+    report = report.loc[:, ["precision", "recall", "f1-score"]].drop(['accuracy', "macro avg"]) # Select what parts of the classification report to plot
     report = report*100 # Multiply by 100 so te percentage is 99.7% instead of 0.997%
     
     # Customize heatmap (Classification Report)
@@ -192,6 +234,14 @@ def plot_classification_report(input_file, split):
     plt.yticks(rotation = 0)
 
 def plot_classification_reports(input_file):
+    """
+    Plot Classification Reports of training and validation set
+
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split 
+    Returns:
+    Classification Report plot
+    """        
 
     plt.rcParams['figure.figsize'] = [18, 5]
     plt.subplot(1,2,1)
@@ -202,6 +252,14 @@ def plot_classification_reports(input_file):
     plt.title("Validation")
 
 def print_accuracies(input_file):
+    """
+    Print accuracy and balanced accuracy
+
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split 
+    Returns:
+    accuracy and balanced accuracy
+    """        
 
     df = pd.read_csv(input_file)
     splits = ["training", "validation"]
