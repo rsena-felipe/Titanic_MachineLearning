@@ -44,14 +44,14 @@ PassengerId,Prediction,True_Label,split
 50,die,die,training
 51,die,die,training
 53,live,live,training
-54,die,live,training
+54,live,live,training
 55,die,die,training
 56,die,die,training
 57,die,die,training
-58,live,live,training
+58,die,live,training
 59,die,die,training
 60,die,die,training
-61,die,die,training
+61,live,die,training
 62,die,die,training
 63,live,live,training
 64,die,die,training
@@ -79,7 +79,7 @@ PassengerId,Prediction,True_Label,split
 94,die,die,training
 95,live,live,training
 96,live,live,training
-99,live,live,training
+99,die,live,training
 100,die,die,training
 101,die,die,training
 102,live,live,training
@@ -96,9 +96,9 @@ PassengerId,Prediction,True_Label,split
 116,live,live,training
 117,die,die,training
 118,die,die,training
-119,live,live,training
+119,die,live,training
 120,live,live,training
-121,live,live,training
+121,die,live,training
 122,die,die,training
 123,live,live,training
 124,die,die,training
@@ -119,7 +119,7 @@ PassengerId,Prediction,True_Label,split
 142,live,live,training
 143,die,die,training
 144,die,die,training
-145,live,live,training
+145,die,live,training
 146,die,die,training
 148,die,die,training
 149,live,live,training
@@ -131,7 +131,7 @@ PassengerId,Prediction,True_Label,split
 157,die,die,training
 158,die,die,training
 159,live,live,training
-160,live,live,training
+160,die,live,training
 161,die,die,training
 163,die,die,training
 164,die,die,training
@@ -146,7 +146,7 @@ PassengerId,Prediction,True_Label,split
 175,die,die,training
 177,die,die,training
 178,die,die,training
-179,live,live,training
+179,die,live,training
 180,live,live,training
 181,live,live,training
 183,live,live,training
@@ -163,7 +163,7 @@ PassengerId,Prediction,True_Label,split
 197,die,die,training
 198,die,live,training
 199,die,die,training
-200,die,live,training
+200,live,live,training
 201,live,live,training
 202,live,live,training
 203,live,live,training
@@ -244,7 +244,7 @@ PassengerId,Prediction,True_Label,split
 299,live,live,training
 301,live,live,training
 302,live,live,training
-303,live,live,training
+303,die,live,training
 304,die,die,training
 305,live,live,training
 306,live,live,training
@@ -253,7 +253,7 @@ PassengerId,Prediction,True_Label,split
 309,die,die,training
 310,die,die,training
 311,live,live,training
-312,die,live,training
+312,live,live,training
 313,die,die,training
 314,die,die,training
 315,die,die,training
@@ -286,7 +286,7 @@ PassengerId,Prediction,True_Label,split
 351,die,die,training
 352,live,live,training
 353,die,die,training
-354,live,die,training
+354,die,die,training
 355,live,live,training
 357,live,live,training
 358,live,live,training
@@ -296,7 +296,7 @@ PassengerId,Prediction,True_Label,split
 362,die,die,training
 364,die,die,training
 365,live,live,training
-367,live,live,training
+367,die,live,training
 368,die,die,training
 370,live,live,training
 372,live,live,training
@@ -330,14 +330,14 @@ PassengerId,Prediction,True_Label,split
 410,die,die,training
 411,die,die,training
 412,die,die,training
-413,die,die,training
+413,live,die,training
 415,die,die,training
 416,live,live,training
 417,die,die,training
 418,live,live,training
 420,die,die,training
 421,die,live,training
-422,live,live,training
+422,die,live,training
 424,live,live,training
 425,live,live,training
 426,die,die,training
@@ -350,13 +350,13 @@ PassengerId,Prediction,True_Label,split
 435,live,live,training
 437,die,die,training
 438,live,live,training
-440,die,die,training
+440,live,die,training
 441,die,die,training
 442,live,live,training
 444,die,die,training
 446,die,die,training
 447,live,live,training
-448,live,die,training
+448,die,die,training
 449,live,live,training
 451,live,live,training
 452,live,live,training
@@ -447,7 +447,7 @@ PassengerId,Prediction,True_Label,split
 561,live,live,training
 563,live,live,training
 564,die,die,training
-566,live,die,training
+566,die,die,training
 567,die,die,training
 569,die,die,training
 570,die,die,training
@@ -456,7 +456,7 @@ PassengerId,Prediction,True_Label,split
 573,die,die,training
 574,die,die,training
 575,die,die,training
-576,live,live,training
+576,die,live,training
 577,die,die,training
 578,die,die,training
 580,die,die,training
@@ -468,7 +468,7 @@ PassengerId,Prediction,True_Label,split
 588,die,die,training
 589,live,live,training
 590,die,die,training
-591,live,live,training
+591,die,live,training
 593,live,live,training
 594,die,die,training
 595,die,die,training
@@ -522,7 +522,7 @@ PassengerId,Prediction,True_Label,split
 653,die,die,training
 654,live,live,training
 655,die,die,training
-656,die,live,training
+656,live,live,training
 657,die,die,training
 658,die,die,training
 659,live,live,training
@@ -554,7 +554,7 @@ PassengerId,Prediction,True_Label,split
 691,live,live,training
 692,live,live,training
 693,live,live,training
-694,live,die,training
+694,die,die,training
 696,die,die,training
 697,die,die,training
 698,live,live,training
@@ -572,10 +572,10 @@ PassengerId,Prediction,True_Label,split
 713,live,live,training
 714,live,live,training
 715,live,live,training
-716,live,live,training
+716,die,live,training
 717,die,die,training
 718,die,die,training
-719,live,die,training
+719,die,die,training
 720,die,die,training
 721,live,live,training
 722,die,die,training
@@ -588,7 +588,7 @@ PassengerId,Prediction,True_Label,split
 730,die,die,training
 731,die,die,training
 732,live,live,training
-733,live,live,training
+733,die,live,training
 734,die,die,training
 735,live,live,training
 736,die,die,training
@@ -667,7 +667,7 @@ PassengerId,Prediction,True_Label,split
 24,live,live,validation
 25,die,die,validation
 26,die,live,validation
-28,live,die,validation
+28,die,die,validation
 31,die,die,validation
 34,live,die,validation
 35,live,die,validation
@@ -681,7 +681,7 @@ PassengerId,Prediction,True_Label,split
 45,die,live,validation
 50,live,die,validation
 51,die,die,validation
-52,live,die,validation
+52,die,die,validation
 53,live,live,validation
 54,live,live,validation
 55,die,die,validation
@@ -689,7 +689,7 @@ PassengerId,Prediction,True_Label,split
 58,die,die,validation
 59,live,live,validation
 60,die,die,validation
-61,live,die,validation
+61,die,die,validation
 63,die,die,validation
 64,die,die,validation
 67,live,live,validation
@@ -702,7 +702,7 @@ PassengerId,Prediction,True_Label,split
 74,die,die,validation
 75,live,live,validation
 76,die,die,validation
-79,live,live,validation
+79,die,live,validation
 80,die,live,validation
 81,die,die,validation
 82,die,live,validation

@@ -1,7 +1,7 @@
 import my_functions
 import pandas as pd
 import seaborn as sns
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, balanced_accuracy_score, roc_curve, auc, f1_score
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, balanced_accuracy_score, roc_curve, auc, f1_score, precision_score, recall_score, cohen_kappa_score
 import matplotlib.pyplot as plt
 
 def calculate_f1score(input_file):
@@ -32,9 +32,38 @@ def calculate_f1score(input_file):
 
     return f1_train, f1_val
 
+def calculate_satisfying_metric(input_file):
+    """
+    Compute auc, balanced accuracy, precision, recall for training and validation
 
+    Arguments:
+    input_file (str) -- Path to .csv that has the predictions with columns and Prediction, True_Label, Split
+    """
 
+    df = pd.read_csv(input_file)
+    df_train = df[ df["split"] == "training" ]
+    df_val = df[ df["split"] == "validation" ]
 
+    # Training
+    # Divide y_pred and y_true 
+    y_pred = df_train["Prediction"]
+    y_true = df_train["True_Label"]
+    
+    # Compute Satisfying Metrics
+    baccuracy_train = balanced_accuracy_score(y_true, y_pred)
+    cohen_train = cohen_kappa_score(y_true, y_pred, weights="linear")
+
+    # Validation
+    # Compute F1 Weighted 
+    y_pred = df_val["Prediction"]
+    y_true = df_val["True_Label"]
+    
+
+    # Compute Satisfying Metrics
+    baccuracy_val = balanced_accuracy_score(y_true, y_pred)
+    cohen_val = cohen_kappa_score(y_true, y_pred, weights="linear")
+
+    return baccuracy_train, cohen_train, baccuracy_val, cohen_val  
 
 def make_predictions(input_file, model, format_type, index_column = "PassengerId", target_column = "Survived"):
     """
