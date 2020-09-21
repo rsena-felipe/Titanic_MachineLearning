@@ -28,7 +28,7 @@
 | ------------- | ------------- |
 | Deep Learning  | history.csv is the history of the trained model via DL. I did not save the model, because it was not good.  |
 | Features Raul  | All models trained by my featured extraction  |
-| Features Roche  | Random Forest trained with original featured extraction  |
+| Features Original  | Random Forest trained with original featured extraction  |
 | Models API  | Support Vector Classifier Model trained with the "prediction_api/model.py" same hyperparameters as the svc in "models/features_raul/svc.pkl"  this is the file svc.pkl. I serialized all columns from training in svc_models_columns.pkl as a solution to the less than expected number of columns.|
 
 <!-- TABLE_GENERATE_END -->
