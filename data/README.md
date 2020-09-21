@@ -6,20 +6,20 @@
 ```bash
 ├── features
 │   ├── train_raul.pkl
-│   ├── train_RF_roche.csv
+│   ├── train_RF_original.csv
 │   ├── val_raul.pkl
-│   └── val_RF_roche.csv
+│   └── val_RF_original.csv
 ├── predictions
 │   ├── ada_boosting.csv
 │   ├── gradient_boosting.csv
 │   ├── logreg_rfecv.csv
 │   ├── random_forest.csv
-│   ├── rf_raul_featuresroche.csv
-│   ├── rf_roche_featuresroche.csv
+│   ├── rf_raul_featuresoriginal.csv
+│   ├── rf_roche_featuresoriginal.csv
 │   └── svc.csv
 ├── preprocess
-│   ├── train_preprocess_roche.csv
-│   └── val_preprocess_roche.csv
+│   ├── train_preprocess_original.csv
+│   └── val_preprocess_original.csv
 ├── raw
 │   ├── train.csv
 │   └── val.csv
