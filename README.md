@@ -4,7 +4,7 @@ This project uses machine learning to create a model that predicts which passeng
 
 ## Project Structure
 
-The project is structure as follows: 
+The project is structured as follows: 
 
 ```bash
 .
