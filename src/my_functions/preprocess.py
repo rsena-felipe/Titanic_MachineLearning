@@ -1,6 +1,6 @@
 import pandas as pd
 
-def preprocess_roche(input_file, output_file, delete_columns = ["Name", "Ticket", "Cabin"], drop_na = True):
+def preprocess_original(input_file, output_file, delete_columns = ["Name", "Ticket", "Cabin"], drop_na = True):
     """
     Preprocess a raw dataframe and delete one or more columns and drops NA values.
 

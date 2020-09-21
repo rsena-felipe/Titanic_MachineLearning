@@ -39,7 +39,7 @@ def map_fsize(family_size):
     elif family_size >=5:
         return "large"     
 
-def build_features_roche(input_file, output_file):
+def build_features_original(input_file, output_file):
     """
     Change values of the column Sex male = 0 and female = 1.
     Change values of the column Embarked Southampton = 1, Cherbourg = 2 and Queenstown = 3.
