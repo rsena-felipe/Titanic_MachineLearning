@@ -15,7 +15,7 @@
 │   ├── logreg_rfecv.csv
 │   ├── random_forest.csv
 │   ├── rf_raul_featuresoriginal.csv
-│   ├── rf_roche_featuresoriginal.csv
+│   ├── rf_original_featuresoriginal.csv
 │   └── svc.csv
 ├── preprocess
 │   ├── train_preprocess_original.csv
@@ -26,11 +26,11 @@
 
 ```
 
-* features: train_raul.pkl and val_raul.pkl are serialized objects of the features extraction that I explained in "notebooks/1_Task4_FeatureEngineering_EDa.ipynb". train_RF_roche.csv and val_RF_roche.csv are the features extraction proposed in the original project by you.
+* features: train_raul.pkl and val_raul.pkl are serialized objects of the features extraction that I explained in "notebooks/1_EDA_FeatureEngineering.ipynb". train_RF_original.csv and val_RF_original.csv are the features extraction proposed in the original project.
 
-* predictions: I save all predictions made by the models in this file. They contain the columns PasssengerId, Predictions, True_Label, and Split. The files: ada_boosting.csv, gradient_boosting.csv, logreg_rfecv.csv, random_forest.csv, and svc.csv are the results of models trained with the feature extraction made by myself and the training is explained in "notebooks/2_Task5_Models.ipynb". The files: rf_raul_featuresroche.csv and rf_roche_featuresroche.csv are the results of a random forest model trained with the feature extraction made by you, the process of training is explained in the file: "notebooks/0_Task3_RandomForest_roche.ipynb".
+* predictions: I save all predictions made by the models in this file. They contain the columns PasssengerId, Predictions, True_Label, and Split. The files: ada_boosting.csv, gradient_boosting.csv, logreg_rfecv.csv, random_forest.csv, and svc.csv are the results of models trained with the feature extraction made by myself and the training is explained in "notebooks/2_TrainModels.ipynb". The files: rf_raul_featuresoriginal.csv and rf_original_featuresoriginal.csv are the results of a random forest model trained with the feature extraction of the original code, the process of training is explained in the file: "notebooks/0_CleanCode.ipynb".
 
-* preprocess: Contains the data that is preprocessed by the original code by you, this is explained in "notebooks/0_Task3_RandomForest_roche.ipynb". I did not do a preprocess step, because I made preprocess and building features steps in a single function.
+* preprocess: Contains the data that is preprocessed by the original code by you, this is explained in "notebooks/0_CleanCode.ipynb". I did not do a preprocess step, because I made preprocess and building features steps in a single function.
 
 * raw: Is the data without any changes of the titanic task, split in training and validation sets. The contents of this raw data are explained below. 
 
