@@ -30,7 +30,7 @@
 
 * predictions: I save all predictions made by the models in this file. They contain the columns PasssengerId, Predictions, True_Label, and Split. The files: ada_boosting.csv, gradient_boosting.csv, logreg_rfecv.csv, random_forest.csv, and svc.csv are the results of models trained with the feature extraction made by myself and the training is explained in "notebooks/2_TrainModels.ipynb". The files: rf_raul_featuresoriginal.csv and rf_original_featuresoriginal.csv are the results of a random forest model trained with the feature extraction of the original code, the process of training is explained in the file: "notebooks/0_CleanCode.ipynb".
 
-* preprocess: Contains the data that is preprocessed by the original code by you, this is explained in "notebooks/0_CleanCode.ipynb". I did not do a preprocess step, because I made preprocess and building features steps in a single function.
+* preprocess: Contains the data that is preprocessed by the original code, this is explained in "notebooks/0_CleanCode.ipynb". I did not do a preprocess step, because I made preprocess and building features steps in a single function.
 
 * raw: Is the data without any changes of the titanic task, split in training and validation sets. The contents of this raw data are explained below. 
 
